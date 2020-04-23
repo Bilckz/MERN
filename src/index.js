@@ -10,6 +10,6 @@ app.get('/', (req, res) => {
     res.send('funfou')
 })
 
-require('./controllers/controller')(app);
+require('./controllers/authController')(app);
 
 app.listen(3000);
