@@ -1,4 +1,6 @@
 const express = require('express');
+const Code = require('../models/code');
+const User = require('../models/user');
 const authMiddleware = require('../middlewares/auth');
 
 
@@ -12,30 +14,31 @@ router.get('/', (req, res) =>{
 
 router.post('/code', async(req,res) =>{
 
-    const { user } = req.body;
-
-    const validate = await User.findOne({ user })
-    console.log(validate)
+    const { trackingCode } = req.body;
 
     try{
         
-        if( !validate )
-            return res.status(400).send({ error: "User not exist" + value})
+        if( !await User.findOne({ _id : req.userId }) )
+            return res.status(400).send({ error: "User not exist"})
 
-        const code = await Code.create(req.body);
+        if( await Code.findOne({ trackingCode }))
+            return res.status(400).send({ error: "TrackingCode already exist" })
+
+        const code = await Code.create({ ...req.body, user: req.userId });
         
         return res.send({ code })
     
     } catch(err){
         console.log(err)
-        return res.status(400).send({ error: 'Registration failed'});
+        return res.status(400).send({ error: 'Error registering code'});
     }
 
 });
 
 router.get('/code', async(req,res) =>{
+
     try{
-        const code = await Code.find();
+        const code = await Code.find({ user : req.userId });
         return res.send({ code })
     
     } catch(err){
@@ -51,7 +54,7 @@ router.get('/code/:codeId', async(req,res) =>{
     
     } catch(err){
         console.log(err)
-        return res.status(400).send({ error: 'Error loading codes'});
+        return res.status(400).send({ error: 'Error loading code'});
     }
 })
 
@@ -67,7 +70,7 @@ router.put('/code/:codeId', async(req,res) =>{
     
     } catch(err){
         console.log(err)
-        return res.status(400).send({ error: 'Error loading codes'});
+        return res.status(400).send({ error: 'Error editing code'});
     }
 })
 
@@ -78,7 +81,7 @@ router.delete('/code/:codeId', async(req,res) =>{
     
     } catch(err){
         console.log(err)
-        return res.status(400).send({ error: 'Error loading codes'});
+        return res.status(400).send({ error: 'Error deleting code'});
     }
 });
 

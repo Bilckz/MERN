@@ -154,6 +154,48 @@
 			"response": []
 		},
 		{
+			"name": "authenticate 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4344c8ba-cd94-4421-be7c-d130f5f763f3",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set('token','Bearer ' + jsonData.token )",
+							"",
+							"console.log(pm.environment.get('token'))"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"pedro@devs.com\",\n\t\"password\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/authenticate",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "projects",
 			"request": {
 				"method": "GET",
@@ -189,7 +231,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"trackingCode\": \"HF31DF3f56D\",\n\t\"description\": \"Placa de video\",\n\t\"user\": \"5ea20ded5e156d4080e4fe01\"\n}",
+					"raw": "{\n\t\"trackingCode\": \"SDADASDASDx\",\n\t\"description\": \"Placa de videos\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -228,6 +270,56 @@
 					"path": [
 						"projects",
 						"code"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "code ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/projects/code/5ea2495bc9936f0560ff7084",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"projects",
+						"code",
+						"5ea2495bc9936f0560ff7084"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "code ID",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/projects/code/5ea2495bc9936f0560ff7084",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"projects",
+						"code",
+						"5ea2495bc9936f0560ff7084"
 					]
 				}
 			},

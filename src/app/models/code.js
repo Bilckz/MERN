@@ -4,6 +4,7 @@ const CodeSchema = new mongoose.Schema({
     trackingCode: {
         type: String,
         required: true,
+        unique: true,
     },
     description: {
         type: String,
