@@ -1,14 +1,18 @@
-const mongoose = require('../database');
+const mongoose = require('../../database');
 
 const CodeSchema = new mongoose.Schema({
-    name: {
+    trackingCode: {
         type: String,
-        require: true,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
     },
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        require: true,
+        required: true,
     }
 })
 
